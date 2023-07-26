@@ -1,7 +1,6 @@
 // MIT License
 //
 // Copyright(c) 2022-2023 Matthieu Bucchianeri
-// Based on https://github.com/mbucchia/OpenXR-Layer-Template.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this softwareand associated documentation files(the "Software"), to deal
@@ -21,26 +20,55 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "pch.h"
 
-#include "framework/dispatch.gen.h"
+#include "utils.h"
+#include <log.h>
+
+#include "trackers.h"
 
 namespace openxr_api_layer {
 
-    const std::string LayerName = LAYER_NAME;
-    const std::string VersionString = "Unreleased (0.0.0)";
+    using namespace log;
 
-    // Singleton accessor.
-    OpenXrApi* GetInstance();
+    struct SimulatedEyeTracker : IEyeTracker {
+        SimulatedEyeTracker() {
+        }
 
-    // The path where the DLL is loaded from (eg: to load data files).
-    extern std::filesystem::path dllHome;
+        void start() override {
+        }
 
-    // The path that is writable (eg: to store logs).
-    extern std::filesystem::path localAppData;
+        void stop() override {
+        }
 
-    extern const std::vector<std::pair<std::string, uint32_t>> advertisedExtensions;
-    extern const std::vector<std::string> blockedExtensions;
-    extern const std::vector<std::string> implicitExtensions;
+        bool isGazeAvailable() const override {
+            return true;
+        }
+
+        bool getGaze(XrVector3f& unitVector) override {
+            RECT rect;
+            rect.left = 1;
+            rect.right = 999;
+            rect.top = 1;
+            rect.bottom = 999;
+            ClipCursor(&rect);
+
+            POINT cursor{};
+            GetCursorPos(&cursor);
+
+            XrVector2f point = {(float)cursor.x / 1000.f, (float)cursor.y / 1000.f};
+            unitVector = xr::math::Normalize({point.x - 0.5f, 0.5f - point.y, -0.35f});
+
+            return true;
+        }
+
+        TrackerType getType() const {
+            return TrackerType::Simulated;
+        }
+    };
+
+    std::unique_ptr<IEyeTracker> createSimulatedEyeTracker() {
+        return std::make_unique<SimulatedEyeTracker>();
+    }
 
 } // namespace openxr_api_layer

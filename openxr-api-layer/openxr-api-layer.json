@@ -6,6 +6,13 @@
     "api_version": "1.0",
     "implementation_version": "1",
     "description": "Add support for eye trackers",
+    "instance_extensions": [
+      {
+        "name": "XR_EXT_eye_gaze_interaction",
+        "extension_version": 2,
+        "entrypoints": []
+      }
+    ],
     "functions": {
       "xrNegotiateLoaderApiLayerInterface": "xrNegotiateLoaderApiLayerInterface"
     },

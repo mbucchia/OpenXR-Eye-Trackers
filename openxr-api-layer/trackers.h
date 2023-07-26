@@ -1,7 +1,6 @@
 // MIT License
 //
 // Copyright(c) 2022-2023 Matthieu Bucchianeri
-// Based on https://github.com/mbucchia/OpenXR-Layer-Template.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this softwareand associated documentation files(the "Software"), to deal
@@ -23,24 +22,33 @@
 
 #pragma once
 
-#include "framework/dispatch.gen.h"
-
 namespace openxr_api_layer {
 
-    const std::string LayerName = LAYER_NAME;
-    const std::string VersionString = "Unreleased (0.0.0)";
+    struct EyeTrackerNotSupportedException : public std::exception {
+        const char* what() const throw() {
+            return "Eye tracker is not supported";
+        }
+    };
 
-    // Singleton accessor.
-    OpenXrApi* GetInstance();
+    enum TrackerType {
+        None = 0,
+        EyeGazeInteraction, // Passthru
+        Simulated,
+        EyeTrackingFB,
+        Omnicept,
+    };
 
-    // The path where the DLL is loaded from (eg: to load data files).
-    extern std::filesystem::path dllHome;
+    struct IEyeTracker {
+        virtual ~IEyeTracker() = default;
 
-    // The path that is writable (eg: to store logs).
-    extern std::filesystem::path localAppData;
+        virtual void start() = 0;
+        virtual void stop() = 0;
+        virtual bool isGazeAvailable() const = 0;
+        virtual bool getGaze(XrVector3f& unitVector) = 0;
+        virtual TrackerType getType() const = 0;
+    };
 
-    extern const std::vector<std::pair<std::string, uint32_t>> advertisedExtensions;
-    extern const std::vector<std::string> blockedExtensions;
-    extern const std::vector<std::string> implicitExtensions;
+    std::unique_ptr<IEyeTracker> createSimulatedEyeTracker();
+    std::unique_ptr<IEyeTracker> createOmniceptEyeTracker();
 
 } // namespace openxr_api_layer

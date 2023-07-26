@@ -1,9 +1,7 @@
 // MIT License
 //
-// << insert your own copyright here >>
-//
-// Based on https://github.com/mbucchia/OpenXR-Layer-Template.
 // Copyright(c) 2022-2023 Matthieu Bucchianeri
+// Based on https://github.com/mbucchia/OpenXR-Layer-Template.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this softwareand associated documentation files(the "Software"), to deal
@@ -27,8 +25,8 @@
 
 // Uncomment below the graphics frameworks used by the layer.
 
-#define XR_USE_GRAPHICS_API_D3D11
-#define XR_USE_GRAPHICS_API_D3D12
+//#define XR_USE_GRAPHICS_API_D3D11
+//#define XR_USE_GRAPHICS_API_D3D12
 
 // Standard library.
 #include <algorithm>
@@ -46,6 +44,9 @@
 #include <string>
 #include <memory>
 #include <optional>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
 
 using namespace std::chrono_literals;
 
@@ -94,5 +95,8 @@ using Microsoft::WRL::ComPtr;
 // Utilities framework.
 #include <utils/graphics.h>
 #endif
+
+// HP Omnicept SDK
+#include <omnicept/Glia.h>
 
 #include <utils/inputs.h>
