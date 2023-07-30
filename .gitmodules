@@ -13,3 +13,6 @@
 [submodule "external/Varjo-SDK"]
 	path = external/Varjo-SDK
 	url = https://github.com/mbucchia/Varjo-SDK.git
+[submodule "external/PVR"]
+	path = external/PVR
+	url = https://github.com/mbucchia/PVR.git
