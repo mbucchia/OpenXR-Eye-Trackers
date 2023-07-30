@@ -11,25 +11,21 @@
       <Buffers Value="40"/>
     </EventCollector>
 
-    <EventProvider Name="CBF3ADCD-42B1-4C38-830C-91980AF201F8" Id="OpenXRTemplate" />
+    <EventProvider Name="CBF3ADCD-42B1-4C38-830C-61980AF201F8" Id="EyeTrackers" />
 
     <!-- Watson logging -->
     <EventProvider Name="1377561D-9312-452C-AD13-C4A1C9C906E0" Id="Microsoft.Windows.FaultReporting" />
     <EventProvider Name="CC79CF77-70D9-4082-9B52-23F3A3E92FE4" Id="Microsoft.Windows.WindowsErrorReporting" />
     <EventProvider Name="3E0D88DE-AE5C-438A-BB1C-C2E627F8AECB" Id="Microsoft.Windows.HangReporting" />
 
-    <!-- Debug layer traces (only works when debug layer is enabled) -->
-    <EventProvider Name="F1FF64EF-FAF3-5699-8E51-F6EC2FBD97D1" Id="Microsoft-Windows-DXGIDebug" />
-
-    <Profile Id="OpenXRTemplate.Verbose.File" LoggingMode="File" Name="OpenXRTemplate" DetailLevel="Verbose" Description="Collect traces for the API layer" Default="true">
+    <Profile Id="EyeTrackers.Verbose.File" LoggingMode="File" Name="EyeTrackers" DetailLevel="Verbose" Description="Collect traces for the API layer" Default="true">
       <Collectors>
         <EventCollectorId Value="EventCollector">
           <EventProviders>
-            <EventProviderId Value="OpenXRTemplate"/>
+            <EventProviderId Value="EyeTrackers"/>
             <EventProviderId Value="Microsoft.Windows.FaultReporting" />
             <EventProviderId Value="Microsoft.Windows.WindowsErrorReporting" />
             <EventProviderId Value="Microsoft.Windows.HangReporting" />
-            <EventProviderId Value="Microsoft-Windows-DXGIDebug"/>
           </EventProviders>
         </EventCollectorId>
       </Collectors>
