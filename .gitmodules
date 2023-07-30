@@ -7,3 +7,6 @@
 [submodule "external/OpenXR-MixedReality"]
 	path = external/OpenXR-MixedReality
 	url = https://github.com/microsoft/OpenXR-MixedReality.git
+[submodule "external/Omnicept-SDK"]
+	path = external/Omnicept-SDK
+	url = https://github.com/mbucchia/Omnicept-SDK.git
