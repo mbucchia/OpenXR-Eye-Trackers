@@ -22,6 +22,7 @@
 
 #include "pch.h"
 
+#include "layer.h"
 #include "utils.h"
 #include <log.h>
 
@@ -65,28 +66,28 @@ namespace openxr_api_layer {
             utilities::DetourDllAttach(
                 "kernel32.dll", "GetCurrentProcessId", hooked_GetCurrentProcessId, g_original_GetCurrentProcessId);
 
-            m_session = varjo_SessionInit();
+            m_varjoSession = varjo_SessionInit();
 
             utilities::DetourDllDetach(
                 "kernel32.dll", "GetCurrentProcessId", hooked_GetCurrentProcessId, g_original_GetCurrentProcessId);
-            if (!m_session) {
+            if (!m_varjoSession) {
                 throw EyeTrackerNotSupportedException();
             }
         }
 
         ~VarjoEyeTracker() override {
-            varjo_SessionShutDown(m_session);
+            varjo_SessionShutDown(m_varjoSession);
         }
 
-        void start() override {
-            varjo_GazeInit(m_session);
+        void start(XrSession session) override {
+            varjo_GazeInit(m_varjoSession);
         }
 
         void stop() override {
         }
 
-        bool isGazeAvailable() const override {
-            const auto gaze = varjo_GetGaze(m_session);
+        bool isGazeAvailable(XrTime time) const override {
+            const auto gaze = varjo_GetGaze(m_varjoSession);
             if (gaze.leftStatus == varjo_GazeEyeStatus_Invalid || gaze.rightStatus == varjo_GazeEyeStatus_Invalid) {
                 return false;
             }
@@ -94,8 +95,8 @@ namespace openxr_api_layer {
             return true;
         }
 
-        bool getGaze(XrVector3f& unitVector) override {
-            const auto gaze = varjo_GetGaze(m_session);
+        bool getGaze(XrTime time, XrVector3f& unitVector) override {
+            const auto gaze = varjo_GetGaze(m_varjoSession);
             if (gaze.leftStatus == varjo_GazeEyeStatus_Invalid || gaze.rightStatus == varjo_GazeEyeStatus_Invalid) {
                 return false;
             }
@@ -111,7 +112,7 @@ namespace openxr_api_layer {
             return TrackerType::Varjo;
         }
 
-        varjo_Session* m_session{nullptr};
+        varjo_Session* m_varjoSession{nullptr};
     };
 
     std::unique_ptr<IEyeTracker> createVarjoEyeTracker() {

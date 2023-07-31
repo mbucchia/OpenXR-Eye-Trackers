@@ -311,6 +311,7 @@ copy $(SolutionDir)\external\Varjo-SDK\bin\VarjoLib32.dll $(OutDir)
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="quest_pro.cpp" />
     <ClCompile Include="simulated.cpp" />
     <ClCompile Include="utils\composition.cpp" />
     <ClCompile Include="utils\d3d11.cpp" />

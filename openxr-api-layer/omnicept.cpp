@@ -22,6 +22,7 @@
 
 #include "pch.h"
 
+#include "layer.h"
 #include "utils.h"
 #include <log.h>
 
@@ -76,14 +77,14 @@ namespace openxr_api_layer {
             }
         }
 
-        void start() override {
+        void start(XrSession session) override {
             m_omniceptClient->startClient();
         }
 
         void stop() override {
         }
 
-        bool isGazeAvailable() const override {
+        bool isGazeAvailable(XrTime time) const override {
             Client::LastValueCached<Abi::EyeTracking> lvc = m_omniceptClient->getLastData<Abi::EyeTracking>();
             if (!lvc.valid || lvc.data.combinedGazeConfidence < 0.5f) {
                 return false;
@@ -92,7 +93,7 @@ namespace openxr_api_layer {
             return true;
         }
 
-        bool getGaze(XrVector3f& unitVector) override {
+        bool getGaze(XrTime time, XrVector3f& unitVector) override {
             Client::LastValueCached<Abi::EyeTracking> lvc = m_omniceptClient->getLastData<Abi::EyeTracking>();
             if (!lvc.valid || lvc.data.combinedGazeConfidence < 0.5f) {
                 return false;

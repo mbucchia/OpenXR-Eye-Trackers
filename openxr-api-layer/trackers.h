@@ -34,23 +34,24 @@ namespace openxr_api_layer {
         None = 0,
         EyeGazeInteraction, // Passthru
         Simulated,
-        EyeTrackingFB,
         Omnicept,
         Varjo,
+        QuestPro,
     };
 
     struct IEyeTracker {
         virtual ~IEyeTracker() = default;
 
-        virtual void start() = 0;
+        virtual void start(XrSession session) = 0;
         virtual void stop() = 0;
-        virtual bool isGazeAvailable() const = 0;
-        virtual bool getGaze(XrVector3f& unitVector) = 0;
+        virtual bool isGazeAvailable(XrTime time) const = 0;
+        virtual bool getGaze(XrTime time, XrVector3f& unitVector) = 0;
         virtual TrackerType getType() const = 0;
     };
 
     std::unique_ptr<IEyeTracker> createSimulatedEyeTracker();
     std::unique_ptr<IEyeTracker> createOmniceptEyeTracker();
     std::unique_ptr<IEyeTracker> createVarjoEyeTracker();
+    std::unique_ptr<IEyeTracker> createQuestProEyeTracker(OpenXrApi& openXrApi);
 
 } // namespace openxr_api_layer

@@ -170,7 +170,7 @@ namespace openxr_api_layer {
                     } else if (eyeTrackingProperties.supportsEyeTracking) {
                         // Quest Pro only supports "social eye tracking", which we can translate into eye gaze
                         // interaction.
-                        // TODO: Quest Pro eye tracking.
+                        m_tracker = createQuestProEyeTracker(*this);
                     } else {
                         // Attempt to initialize external eye tracking API.
                         if (systemName.find("Windows Mixed Reality") != std::string::npos ||
@@ -254,7 +254,7 @@ namespace openxr_api_layer {
                     m_session = *session;
 
                     if (m_tracker) {
-                        m_tracker->start();
+                        m_tracker->start(m_session);
                     }
                     {
                         XrReferenceSpaceCreateInfo referenceSpaceInfo{XR_TYPE_REFERENCE_SPACE_CREATE_INFO};
@@ -591,16 +591,12 @@ namespace openxr_api_layer {
         bool getEyeGaze(XrTime time, bool getStateOnly, XrVector3f& unitVector) {
             bool result = false;
             switch (m_trackerType) {
-            case TrackerType::EyeTrackingFB:
-                // TODO: Quest Pro eye tracking.
-                break;
-
             default:
                 if (m_tracker) {
                     if (!getStateOnly) {
-                        result = m_tracker->getGaze(unitVector);
+                        result = m_tracker->getGaze(time, unitVector);
                     } else {
-                        result = m_tracker->isGazeAvailable();
+                        result = m_tracker->isGazeAvailable(time);
                     }
                 }
                 break;

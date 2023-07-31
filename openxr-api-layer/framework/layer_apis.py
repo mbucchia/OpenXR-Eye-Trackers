@@ -24,7 +24,9 @@ requested_functions = [
     "xrCreateReferenceSpace",
     "xrStringToPath",
     "xrPathToString",
+    "xrCreateEyeTrackerFB",
+    "xrGetEyeGazesFB",
 ]
 
 # The list of OpenXR extensions our layer will either override or use.
-extensions = ['XR_EXT_eye_gaze_interaction']
+extensions = ['XR_EXT_eye_gaze_interaction', 'XR_FB_eye_tracking_social']

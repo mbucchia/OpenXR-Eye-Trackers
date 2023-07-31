@@ -22,6 +22,7 @@
 
 #include "pch.h"
 
+#include "layer.h"
 #include "utils.h"
 #include <log.h>
 
@@ -35,17 +36,17 @@ namespace openxr_api_layer {
         SimulatedEyeTracker() {
         }
 
-        void start() override {
+        void start(XrSession session) override {
         }
 
         void stop() override {
         }
 
-        bool isGazeAvailable() const override {
+        bool isGazeAvailable(XrTime time) const override {
             return true;
         }
 
-        bool getGaze(XrVector3f& unitVector) override {
+        bool getGaze(XrTime time, XrVector3f& unitVector) override {
             RECT rect;
             rect.left = 1;
             rect.right = 999;
