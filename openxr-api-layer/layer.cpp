@@ -313,6 +313,7 @@ namespace openxr_api_layer {
             if (!isPassthrough() && interactionProfile == "/interaction_profiles/ext/eye_gaze_interaction") {
                 std::unique_lock lock(m_actionsAndSpacesMutex);
 
+                result = XR_SUCCESS;
                 for (uint32_t i = 0; i < suggestedBindings->countSuggestedBindings; i++) {
                     TraceLoggingWrite(
                         g_traceProvider,
@@ -321,15 +322,15 @@ namespace openxr_api_layer {
                         TLArg(getXrPath(suggestedBindings->suggestedBindings[i].binding).c_str(), "Path"));
 
                     const std::string& path = getXrPath(suggestedBindings->suggestedBindings[i].binding);
-                    // TODO: Add conformance checks.
                     if (path == "/user/eyes_ext/input/gaze_ext/pose" || path == "/user/eyes_ext/input/gaze_ext") {
                         m_eyeGazeActions.insert(suggestedBindings->suggestedBindings[i].action);
+                    } else {
+                        result = XR_ERROR_PATH_UNSUPPORTED;
                     }
                 }
 
                 // We don't actually suggest the bindings, they would cause an error since the interaction profile is
                 // not supported.
-                result = XR_SUCCESS;
             } else {
                 result = OpenXrApi::xrSuggestInteractionProfileBindings(instance, suggestedBindings);
             }
@@ -465,6 +466,7 @@ namespace openxr_api_layer {
             XrResult result = XR_ERROR_RUNTIME_FAILURE;
             if (isQueryEyeGaze || isBaseEyeGaze) {
                 assert(!isPassthrough());
+                // TODO: Support the notion of (in)active actionsets and actionset priority.
                 if (isQueryEyeGaze && isBaseEyeGaze) {
                     location->pose = Pose::Multiply(queryPoseOffset, Pose::Invert(basePoseOffset));
                     location->locationFlags =
@@ -490,7 +492,18 @@ namespace openxr_api_layer {
                             }
 
                             location->locationFlags = viewToSpace.locationFlags;
-                            // TODO: P2: Handle XrEyeGazeSampleTimeEXT
+
+                            // Handle the sample time struct if needed.
+                            XrEyeGazeSampleTimeEXT* gazeSampleTime =
+                                reinterpret_cast<XrEyeGazeSampleTimeEXT*>(location->next);
+                            while (gazeSampleTime) {
+                                if (gazeSampleTime->type == XR_TYPE_EYE_GAZE_SAMPLE_TIME_EXT) {
+                                    // TODO: Handle sample time for trackers that support it.
+                                    gazeSampleTime->time = time;
+                                    break;
+                                }
+                                gazeSampleTime = reinterpret_cast<XrEyeGazeSampleTimeEXT*>(gazeSampleTime->next);
+                            }
                         }
                     }
                 }
@@ -581,9 +594,48 @@ namespace openxr_api_layer {
                                                   uint32_t sourceCapacityInput,
                                                   uint32_t* sourceCountOutput,
                                                   XrPath* sources) override {
-            // TODO: P2: Add path for eye tracker to bound action
-            return OpenXrApi::xrEnumerateBoundSourcesForAction(
-                session, enumerateInfo, sourceCapacityInput, sourceCountOutput, sources);
+            if (enumerateInfo->type != XR_TYPE_BOUND_SOURCES_FOR_ACTION_ENUMERATE_INFO) {
+                return XR_ERROR_VALIDATION_FAILURE;
+            }
+
+            TraceLoggingWrite(g_traceProvider,
+                              "xrEnumerateBoundSourcesForAction",
+                              TLXArg(session, "Session"),
+                              TLXArg(enumerateInfo->action, "Action"),
+                              TLArg(sourceCapacityInput, "SourceCapacityInput"));
+
+            std::unique_lock lock(m_actionsAndSpacesMutex);
+
+            XrResult result = XR_ERROR_RUNTIME_FAILURE;
+            if (isSessionHandled(session) && !isPassthrough() && m_eyeGazeActions.count(enumerateInfo->action)) {
+                // TODO: Support the notion of (in)active actionsets and actionset priority.
+                *sourceCountOutput = 1;
+                result = XR_SUCCESS;
+
+                if (sourceCapacityInput) {
+                    CHECK_XRCMD(xrStringToPath(GetXrInstance(), "/user/eyes_ext/input/gaze_ext/pose", &sources[0]));
+                }
+            } else {
+                result = OpenXrApi::xrEnumerateBoundSourcesForAction(
+                    session, enumerateInfo, sourceCapacityInput, sourceCountOutput, sources);
+            }
+
+            if (XR_SUCCEEDED(result)) {
+                TraceLoggingWrite(g_traceProvider,
+                                  "xrEnumerateBoundSourcesForAction",
+                                  TLArg(*sourceCountOutput, "SourceCountOutput"));
+
+                if (sourceCapacityInput) {
+                    for (uint32_t i = 0; i < *sourceCountOutput; i++) {
+                        TraceLoggingWrite(g_traceProvider,
+                                          "xrEnumerateBoundSourcesForAction",
+                                          TLArg((uint64_t)sources[i], "Source"),
+                                          TLArg(getXrPath(sources[i]).c_str(), "Path"));
+                    }
+                }
+            }
+
+            return result;
         }
 
         // https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#xrGetInputSourceLocalizedName
@@ -592,9 +644,54 @@ namespace openxr_api_layer {
                                                uint32_t bufferCapacityInput,
                                                uint32_t* bufferCountOutput,
                                                char* buffer) override {
-            // TODO: P2: Resolved localized name.
-            return OpenXrApi::xrGetInputSourceLocalizedName(
-                session, getInfo, bufferCapacityInput, bufferCountOutput, buffer);
+            if (getInfo->type != XR_TYPE_INPUT_SOURCE_LOCALIZED_NAME_GET_INFO) {
+                return XR_ERROR_VALIDATION_FAILURE;
+            }
+
+            TraceLoggingWrite(g_traceProvider,
+                              "xrGetInputSourceLocalizedName",
+                              TLXArg(session, "Session"),
+                              TLArg(getXrPath(getInfo->sourcePath).c_str(), "SourcePath"),
+                              TLArg(getInfo->whichComponents, "WhichComponents"));
+
+            XrResult result = XR_ERROR_RUNTIME_FAILURE;
+            const std::string& sourcePath = getXrPath(getInfo->sourcePath);
+            if (isSessionHandled(session) && !isPassthrough() && sourcePath == "/user/eyes_ext/input/gaze_ext/pose") {
+                std::string localizedName;
+                if ((getInfo->whichComponents & (XR_INPUT_SOURCE_LOCALIZED_NAME_INTERACTION_PROFILE_BIT |
+                                                 XR_INPUT_SOURCE_LOCALIZED_NAME_COMPONENT_BIT)) ==
+                    (XR_INPUT_SOURCE_LOCALIZED_NAME_INTERACTION_PROFILE_BIT |
+                     XR_INPUT_SOURCE_LOCALIZED_NAME_COMPONENT_BIT)) {
+                    localizedName += "Eye Gaze Interaction Eye Tracker";
+                } else if ((getInfo->whichComponents & XR_INPUT_SOURCE_LOCALIZED_NAME_INTERACTION_PROFILE_BIT)) {
+                    localizedName += "Eye Gaze Interaction";
+                } else if ((getInfo->whichComponents & XR_INPUT_SOURCE_LOCALIZED_NAME_COMPONENT_BIT)) {
+                    localizedName += "Eye Tracker";
+                }
+
+                *bufferCountOutput = (uint32_t)localizedName.length();
+                result = XR_SUCCESS;
+
+                if (bufferCapacityInput && bufferCapacityInput >= *bufferCountOutput) {
+                    sprintf_s(buffer, bufferCapacityInput, "%s", localizedName.c_str());
+                } else {
+                    result = XR_ERROR_SIZE_INSUFFICIENT;
+                }
+            } else {
+                result = OpenXrApi::xrGetInputSourceLocalizedName(
+                    session, getInfo, bufferCapacityInput, bufferCountOutput, buffer);
+            }
+
+            if (XR_SUCCEEDED(result)) {
+                TraceLoggingWrite(
+                    g_traceProvider, "xrGetInputSourceLocalizedName", TLArg(*bufferCountOutput, "BufferCountOutput"));
+
+                if (bufferCapacityInput) {
+                    TraceLoggingWrite(g_traceProvider, "xrGetInputSourceLocalizedName", TLArg(buffer, "String"));
+                }
+            }
+
+            return result;
         }
 
       private:
