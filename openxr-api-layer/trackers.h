@@ -30,7 +30,7 @@ namespace openxr_api_layer {
         }
     };
 
-    enum TrackerType {
+    enum class TrackerType {
         None = 0,
         EyeGazeInteraction, // Passthru
         Simulated,
@@ -39,6 +39,26 @@ namespace openxr_api_layer {
         QuestPro,
         Pimax,
     };
+
+    static inline std::string getTrackerType(TrackerType type) {
+        switch (type) {
+        case TrackerType::None:
+            return "None";
+        case TrackerType::EyeGazeInteraction:
+            return "Passthrough";
+        case TrackerType::Simulated:
+            return "Simulated";
+        case TrackerType::Omnicept:
+            return "HP Omnicept";
+        case TrackerType::Varjo:
+            return "Varjo";
+        case TrackerType::QuestPro:
+            return "Quest Pro";
+        case TrackerType::Pimax:
+            return "Pimax";
+        }
+        return "<Unknown>";
+    }
 
     struct IEyeTracker {
         virtual ~IEyeTracker() = default;

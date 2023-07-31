@@ -25,6 +25,7 @@
 #include "layer.h"
 #include "utils.h"
 #include <log.h>
+#include <util.h>
 
 #include "trackers.h"
 
@@ -34,21 +35,31 @@ namespace openxr_api_layer {
 
     struct PimaxEyeTracker : IEyeTracker {
         PimaxEyeTracker() {
-            if (pvr_initialise(&m_pvr) != pvr_success) {
+            pvrResult result = pvr_initialise(&m_pvr);
+            if (result != pvr_success) {
+                TraceLoggingWrite(g_traceProvider, "PimaxEyeTracker_InitError", TLArg((int)result, "Error"));
                 throw EyeTrackerNotSupportedException();
             }
 
-            if (pvr_createSession(m_pvr, &m_pvrSession) != pvr_success) {
+            result = pvr_createSession(m_pvr, &m_pvrSession);
+            if (result != pvr_success) {
+                TraceLoggingWrite(g_traceProvider, "PimaxEyeTracker_CreateSessionError", TLArg((int)result, "Error"));
                 throw EyeTrackerNotSupportedException();
             }
 
             pvrHmdInfo info{};
-            if (pvr_getHmdInfo(m_pvrSession, &info) != pvr_success) {
+            result = pvr_getHmdInfo(m_pvrSession, &info);
+            if (result != pvr_success) {
+                TraceLoggingWrite(g_traceProvider, "PimaxEyeTracker_HmdInfoError", TLArg((int)result, "Error"));
                 throw EyeTrackerNotSupportedException();
             }
 
             // Look for a Pimax Crystal specifically.
             if (!(info.VendorId == 0x34A4 && info.ProductId == 0x0012)) {
+                TraceLoggingWrite(g_traceProvider,
+                                  "PimaxEyeTracker_NotSupported",
+                                  TLArg(info.VendorId, "VendorId"),
+                                  TLArg(info.ProductId, "ProductId"));
                 throw EyeTrackerNotSupportedException();
             }
         }
@@ -66,9 +77,14 @@ namespace openxr_api_layer {
 
         bool isGazeAvailable(XrTime time) const override {
             pvrEyeTrackingInfo state{};
-            if (pvr_getEyeTrackingInfo(m_pvrSession, pvr_getTimeSeconds(m_pvr), &state) != pvr_success) {
+            pvrResult result = pvr_getEyeTrackingInfo(m_pvrSession, pvr_getTimeSeconds(m_pvr), &state);
+            if (result != pvr_success) {
+                TraceLoggingWrite(
+                    g_traceProvider, "PimaxEyeTracker_GetEyeTrackingInfo_Error", TLArg((int)result, "Error"));
                 return false;
             }
+            TraceLoggingWrite(
+                g_traceProvider, "PimaxEyeTracker_GetEyeTrackingInfo", TLArg(state.TimeInSeconds, "TimeInSeconds"));
 
             // According to Pimax, this is how we detect gaze not valid.
             if (state.TimeInSeconds == 0) {
@@ -81,14 +97,29 @@ namespace openxr_api_layer {
         bool getGaze(XrTime time, XrVector3f& unitVector) override {
             pvrEyeTrackingInfo state{};
             // TODO: Properly convert and use XrTime.
-            if (pvr_getEyeTrackingInfo(m_pvrSession, pvr_getTimeSeconds(m_pvr), &state) != pvr_success) {
+            pvrResult result = pvr_getEyeTrackingInfo(m_pvrSession, pvr_getTimeSeconds(m_pvr), &state);
+            if (result != pvr_success) {
+                TraceLoggingWrite(
+                    g_traceProvider, "PimaxEyeTracker_GetEyeTrackingInfo_Error", TLArg((int)result, "Error"));
                 return false;
             }
+            TraceLoggingWrite(
+                g_traceProvider, "PimaxEyeTracker_GetEyeTrackingInfo", TLArg(state.TimeInSeconds, "TimeInSeconds"));
 
             // According to Pimax, this is how we detect gaze not valid.
             if (state.TimeInSeconds == 0) {
                 return false;
             }
+            TraceLoggingWrite(g_traceProvider,
+                              "PimaxEyeTracker_GetEyeTrackingInfo",
+                              TLArg(xr::ToString(XrVector2f{state.GazeTan[xr::StereoView::Left].x,
+                                                            state.GazeTan[xr::StereoView::Left].y})
+                                        .c_str(),
+                                    "LeftGaze"),
+                              TLArg(xr::ToString(XrVector2f{state.GazeTan[xr::StereoView::Right].x,
+                                                            state.GazeTan[xr::StereoView::Right].y})
+                                        .c_str(),
+                                    "RightGaze"));
 
             // Compute the gaze pitch/yaw angles by averaging both eyes.
             const float angleHorizontal =

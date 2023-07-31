@@ -162,6 +162,9 @@ namespace openxr_api_layer {
                         // it.
                         // Note: that WMR advertises eye gaze interaction, but it is not real on PC platforms.
                         m_trackerType = TrackerType::EyeGazeInteraction;
+                        Log(fmt::format(
+                            "Upstream layer/runtime reported supportsEyeGazeInteraction, {} layer will be bypassed\n",
+                            LayerName));
                     } else if (utilities::RegGetDword(
                                    HKEY_LOCAL_MACHINE, "SOFTWARE\\OpenXR-Eye-Trackers", "SimulateTracker")
                                    .value_or(false)) {
@@ -182,8 +185,14 @@ namespace openxr_api_layer {
                             m_tracker = createVarjoEyeTracker();
                         }
                     }
+
                     if (m_tracker) {
                         m_trackerType = m_tracker->getType();
+                        Log(fmt::format("Using eye tracking: {}\n", getTrackerType(m_trackerType)));
+                    }
+                    TraceLoggingWrite(g_traceProvider, "xrGetSystem", TLArg((int)m_trackerType, "TrackerType"));
+                    if (m_trackerType == TrackerType::None) {
+                        Log("No supported eye tracking device found\n");
                     }
                 }
 
@@ -455,6 +464,7 @@ namespace openxr_api_layer {
 
             XrResult result = XR_ERROR_RUNTIME_FAILURE;
             if (isQueryEyeGaze || isBaseEyeGaze) {
+                assert(!isPassthrough());
                 if (isQueryEyeGaze && isBaseEyeGaze) {
                     location->pose = Pose::Multiply(queryPoseOffset, Pose::Invert(basePoseOffset));
                     location->locationFlags =

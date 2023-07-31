@@ -25,6 +25,7 @@
 #include "layer.h"
 #include "utils.h"
 #include <log.h>
+#include <util.h>
 
 #include "trackers.h"
 
@@ -56,6 +57,13 @@ namespace openxr_api_layer {
 
             XrEyeGazesFB eyeGaze{XR_TYPE_EYE_GAZES_FB};
             CHECK_XRCMD(m_openXrApi.xrGetEyeGazesFB(m_eyeTracker, &eyeGazeInfo, &eyeGaze));
+            TraceLoggingWrite(g_traceProvider,
+                              "EyeTrackerFB",
+                              TLArg(!!eyeGaze.gaze[xr::StereoView::Left].isValid, "LeftValid"),
+                              TLArg(eyeGaze.gaze[xr::StereoView::Left].gazeConfidence, "LeftConfidence"),
+                              TLArg(!!eyeGaze.gaze[xr::StereoView::Right].isValid, "RightValid"),
+                              TLArg(eyeGaze.gaze[xr::StereoView::Right].gazeConfidence, "RightConfidence"));
+
             if (!(eyeGaze.gaze[xr::StereoView::Left].isValid && eyeGaze.gaze[xr::StereoView::Right].isValid)) {
                 return false;
             }
@@ -74,6 +82,13 @@ namespace openxr_api_layer {
 
             XrEyeGazesFB eyeGaze{XR_TYPE_EYE_GAZES_FB};
             CHECK_XRCMD(m_openXrApi.xrGetEyeGazesFB(m_eyeTracker, &eyeGazeInfo, &eyeGaze));
+            TraceLoggingWrite(g_traceProvider,
+                              "EyeTrackerFB",
+                              TLArg(!!eyeGaze.gaze[xr::StereoView::Left].isValid, "LeftValid"),
+                              TLArg(eyeGaze.gaze[xr::StereoView::Left].gazeConfidence, "LeftConfidence"),
+                              TLArg(!!eyeGaze.gaze[xr::StereoView::Right].isValid, "RightValid"),
+                              TLArg(eyeGaze.gaze[xr::StereoView::Right].gazeConfidence, "RightConfidence"));
+
             if (!(eyeGaze.gaze[xr::StereoView::Left].isValid && eyeGaze.gaze[xr::StereoView::Right].isValid)) {
                 return false;
             }
@@ -81,6 +96,11 @@ namespace openxr_api_layer {
                   eyeGaze.gaze[xr::StereoView::Right].gazeConfidence > 0.5f)) {
                 return false;
             }
+            TraceLoggingWrite(
+                g_traceProvider,
+                "EyeTrackerFB",
+                TLArg(xr::ToString(eyeGaze.gaze[xr::StereoView::Left].gazePose).c_str(), "LeftGazePose"),
+                TLArg(xr::ToString(eyeGaze.gaze[xr::StereoView::Right].gazePose).c_str(), "RightGazePose"));
 
             // Average the poses from both eyes.
             const auto gaze = xr::math::LoadXrPose(xr::math::Pose::Slerp(

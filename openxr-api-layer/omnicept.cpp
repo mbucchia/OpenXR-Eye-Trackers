@@ -25,6 +25,7 @@
 #include "layer.h"
 #include "utils.h"
 #include <log.h>
+#include <util.h>
 
 #include "trackers.h"
 
@@ -36,6 +37,7 @@ namespace openxr_api_layer {
     struct OmniceptEyeTracker : IEyeTracker {
         OmniceptEyeTracker() {
             if (!utilities::IsServiceRunning("HP Omnicept")) {
+                TraceLoggingWrite(g_traceProvider, "OmniceptEyeTracker_NoService");
                 throw EyeTrackerNotSupportedException();
             }
 
@@ -63,29 +65,47 @@ namespace openxr_api_layer {
 
                 m_omniceptClient->setSubscriptions(*subList);
             } catch (const Abi::HandshakeError& e) {
+                TraceLoggingWrite(g_traceProvider, "OmniceptEyeTracker_HandshakeError", TLArg(e.what(), "Error"));
                 Log("Could not connect to Omnicept runtime HandshakeError: %s\n", e.what());
                 throw EyeTrackerNotSupportedException();
             } catch (const Abi::TransportError& e) {
+                TraceLoggingWrite(g_traceProvider, "OmniceptEyeTracker_TransportError", TLArg(e.what(), "Error"));
                 Log("Could not connect to Omnicept runtime TransportError: %s\n", e.what());
                 throw EyeTrackerNotSupportedException();
             } catch (const Abi::ProtocolError& e) {
+                TraceLoggingWrite(g_traceProvider, "OmniceptEyeTracker_ProtocolError", TLArg(e.what(), "Error"));
                 Log("Could not connect to Omnicept runtime ProtocolError: %s\n", e.what());
                 throw EyeTrackerNotSupportedException();
             } catch (std::exception& e) {
+                TraceLoggingWrite(g_traceProvider, "OmniceptEyeTracker_Error", TLArg(e.what(), "Error"));
                 Log("Could not connect to Omnicept runtime: %s\n", e.what());
                 throw EyeTrackerNotSupportedException();
             }
         }
 
         void start(XrSession session) override {
-            m_omniceptClient->startClient();
+            const auto result = m_omniceptClient->startClient();
+            if (result != Client::Result::SUCCESS) {
+                TraceLoggingWrite(g_traceProvider, "OmniceptEyeTracker_Start_Error", TLArg((int)result, "Result"));
+            }
         }
 
         void stop() override {
         }
 
         bool isGazeAvailable(XrTime time) const override {
-            Client::LastValueCached<Abi::EyeTracking> lvc = m_omniceptClient->getLastData<Abi::EyeTracking>();
+            Client::LastValueCached<Abi::EyeTracking> lvc;
+            try {
+                lvc = m_omniceptClient->getLastData<Abi::EyeTracking>();
+            } catch (const Abi::SerializationError& e) {
+                TraceLoggingWrite(g_traceProvider, "OmniceptEyeTracker_GetLastData_Error", TLArg(e.what(), "Error"));
+                return false;
+            }
+            TraceLoggingWrite(g_traceProvider,
+                              "OmniceptEyeTracker_GetLastData",
+                              TLArg(lvc.valid, "Valid"),
+                              TLArg(lvc.data.combinedGazeConfidence, "CombinedGazeConfidence"));
+
             if (!lvc.valid || lvc.data.combinedGazeConfidence < 0.5f) {
                 return false;
             }
@@ -94,10 +114,28 @@ namespace openxr_api_layer {
         }
 
         bool getGaze(XrTime time, XrVector3f& unitVector) override {
-            Client::LastValueCached<Abi::EyeTracking> lvc = m_omniceptClient->getLastData<Abi::EyeTracking>();
+            Client::LastValueCached<Abi::EyeTracking> lvc;
+            try {
+                lvc = m_omniceptClient->getLastData<Abi::EyeTracking>();
+            } catch (const Abi::SerializationError& e) {
+                TraceLoggingWrite(g_traceProvider, "OmniceptEyeTracker_GetLastData_Error", TLArg(e.what(), "Error"));
+                return false;
+            }
+            TraceLoggingWrite(g_traceProvider,
+                              "OmniceptEyeTracker_GetLastData",
+                              TLArg(lvc.valid, "Valid"),
+                              TLArg(lvc.data.combinedGazeConfidence, "CombinedGazeConfidence"));
+
             if (!lvc.valid || lvc.data.combinedGazeConfidence < 0.5f) {
                 return false;
             }
+            TraceLoggingWrite(
+                g_traceProvider,
+                "OmniceptEyeTracker_GetLastData",
+                TLArg(
+                    xr::ToString(XrVector3f{lvc.data.combinedGaze.x, lvc.data.combinedGaze.y, lvc.data.combinedGaze.z})
+                        .c_str(),
+                    "CombinedGaze"));
 
             unitVector.x = -lvc.data.combinedGaze.x;
             unitVector.y = lvc.data.combinedGaze.y;

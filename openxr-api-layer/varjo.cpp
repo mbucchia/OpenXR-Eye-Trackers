@@ -25,6 +25,7 @@
 #include "layer.h"
 #include "utils.h"
 #include <log.h>
+#include <util.h>
 
 #include "trackers.h"
 
@@ -34,7 +35,7 @@ namespace openxr_api_layer {
 
     namespace {
 
-        // Hook to fake process ID.
+        // Hook to fake the process ID.
         decltype(GetCurrentProcessId)* g_original_GetCurrentProcessId = nullptr;
         DWORD WINAPI hooked_GetCurrentProcessId() {
             // We try to only intercept calls from the Varjo client.
@@ -59,6 +60,7 @@ namespace openxr_api_layer {
     struct VarjoEyeTracker : IEyeTracker {
         VarjoEyeTracker() {
             if (!varjo_IsAvailable()) {
+                TraceLoggingWrite(g_traceProvider, "VarjoEyeTracker_NotAvailable");
                 throw EyeTrackerNotSupportedException();
             }
 
@@ -70,7 +72,9 @@ namespace openxr_api_layer {
 
             utilities::DetourDllDetach(
                 "kernel32.dll", "GetCurrentProcessId", hooked_GetCurrentProcessId, g_original_GetCurrentProcessId);
+
             if (!m_varjoSession) {
+                TraceLoggingWrite(g_traceProvider, "VarjoEyeTracker_InitError");
                 throw EyeTrackerNotSupportedException();
             }
         }
@@ -88,6 +92,11 @@ namespace openxr_api_layer {
 
         bool isGazeAvailable(XrTime time) const override {
             const auto gaze = varjo_GetGaze(m_varjoSession);
+            TraceLoggingWrite(g_traceProvider,
+                              "VarjoEyeTracker_GetGaze",
+                              TLArg((int)gaze.leftStatus, "LeftStatus"),
+                              TLArg((int)gaze.rightStatus, "RightStatus"));
+
             if (gaze.leftStatus == varjo_GazeEyeStatus_Invalid || gaze.rightStatus == varjo_GazeEyeStatus_Invalid) {
                 return false;
             }
@@ -97,9 +106,26 @@ namespace openxr_api_layer {
 
         bool getGaze(XrTime time, XrVector3f& unitVector) override {
             const auto gaze = varjo_GetGaze(m_varjoSession);
+            TraceLoggingWrite(g_traceProvider,
+                              "VarjoEyeTracker_GetGaze",
+                              TLArg((int)gaze.leftStatus, "LeftStatus"),
+                              TLArg((int)gaze.rightStatus, "RightStatus"));
+
             if (gaze.leftStatus == varjo_GazeEyeStatus_Invalid || gaze.rightStatus == varjo_GazeEyeStatus_Invalid) {
                 return false;
             }
+            TraceLoggingWrite(g_traceProvider,
+                              "VarjoEyeTracker_GetGaze",
+                              TLArg(xr::ToString(XrVector3f{(float)gaze.leftEye.forward[0],
+                                                            (float)gaze.leftEye.forward[1],
+                                                            (float)gaze.leftEye.forward[2]})
+                                        .c_str(),
+                                    "LeftForward"),
+                              TLArg(xr::ToString(XrVector3f{(float)gaze.rightEye.forward[0],
+                                                            (float)gaze.rightEye.forward[1],
+                                                            (float)gaze.rightEye.forward[2]})
+                                        .c_str(),
+                                    "RightForward"));
 
             unitVector.x = (float)(gaze.leftEye.forward[0] + gaze.rightEye.forward[0]) / 2.f;
             unitVector.y = (float)(gaze.leftEye.forward[1] + gaze.rightEye.forward[1]) / 2.f;
