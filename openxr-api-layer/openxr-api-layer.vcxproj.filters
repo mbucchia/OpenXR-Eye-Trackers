@@ -97,6 +97,9 @@
     <ClCompile Include="quest_pro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pimax.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="framework\dispatch_generator.py">

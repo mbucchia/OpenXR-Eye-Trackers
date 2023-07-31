@@ -37,6 +37,7 @@ namespace openxr_api_layer {
         Omnicept,
         Varjo,
         QuestPro,
+        Pimax,
     };
 
     struct IEyeTracker {
@@ -53,5 +54,6 @@ namespace openxr_api_layer {
     std::unique_ptr<IEyeTracker> createOmniceptEyeTracker();
     std::unique_ptr<IEyeTracker> createVarjoEyeTracker();
     std::unique_ptr<IEyeTracker> createQuestProEyeTracker(OpenXrApi& openXrApi);
+    std::unique_ptr<IEyeTracker> createPimaxEyeTracker();
 
 } // namespace openxr_api_layer

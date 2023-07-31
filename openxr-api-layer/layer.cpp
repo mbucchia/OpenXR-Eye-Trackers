@@ -177,7 +177,7 @@ namespace openxr_api_layer {
                             systemName.find("SteamVR/OpenXR : holographic") != std::string::npos) {
                             m_tracker = createOmniceptEyeTracker();
                         } else if (systemName.find("SteamVR/OpenXR : aapvr") != std::string::npos) {
-                            // TODO: Pimax Crystal eye tracking.
+                            m_tracker = createPimaxEyeTracker();
                         } else if (systemName.find("SteamVR/OpenXR") != std::string::npos) {
                             m_tracker = createVarjoEyeTracker();
                         }

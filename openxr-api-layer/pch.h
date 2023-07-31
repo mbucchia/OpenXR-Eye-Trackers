@@ -105,4 +105,7 @@ using Microsoft::WRL::ComPtr;
 // Varjo Custom Engine SDK
 #include <varjo.h>
 
+// Pimax SDK
+#include <PVR_API.h>
+
 #include <utils/inputs.h>
