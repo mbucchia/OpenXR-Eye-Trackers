@@ -179,7 +179,7 @@ namespace openxr_api_layer {
                         } else if (systemName.find("SteamVR/OpenXR : aapvr") != std::string::npos) {
                             // TODO: Pimax Crystal eye tracking.
                         } else if (systemName.find("SteamVR/OpenXR") != std::string::npos) {
-                            // TODO: Varjo eye tracking
+                            m_tracker = createVarjoEyeTracker();
                         }
                     }
                     if (m_tracker) {
@@ -677,6 +677,7 @@ namespace openxr_api_layer {
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
     switch (ul_reason_for_call) {
     case DLL_PROCESS_ATTACH:
+        DetourRestoreAfterWith();
         TraceLoggingRegister(openxr_api_layer::log::g_traceProvider);
         break;
 

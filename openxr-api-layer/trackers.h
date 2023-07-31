@@ -36,6 +36,7 @@ namespace openxr_api_layer {
         Simulated,
         EyeTrackingFB,
         Omnicept,
+        Varjo,
     };
 
     struct IEyeTracker {
@@ -50,5 +51,6 @@ namespace openxr_api_layer {
 
     std::unique_ptr<IEyeTracker> createSimulatedEyeTracker();
     std::unique_ptr<IEyeTracker> createOmniceptEyeTracker();
+    std::unique_ptr<IEyeTracker> createVarjoEyeTracker();
 
 } // namespace openxr_api_layer

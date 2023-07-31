@@ -96,7 +96,13 @@ using Microsoft::WRL::ComPtr;
 #include <utils/graphics.h>
 #endif
 
+// Detours to hook into other code.
+#include <detours.h>
+
 // HP Omnicept SDK
 #include <omnicept/Glia.h>
+
+// Varjo Custom Engine SDK
+#include <varjo.h>
 
 #include <utils/inputs.h>

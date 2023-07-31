@@ -75,4 +75,41 @@ namespace openxr_api_layer::utilities {
         return ssStatus.dwCurrentState == SERVICE_RUNNING;
     }
 
+    template <typename TMethod>
+    void DetourDllAttach(const char* dll, const char* target, TMethod hooked, TMethod& original) {
+        if (original) {
+            // Already hooked.
+            return;
+        }
+
+        HMODULE handle;
+        CHECK_MSG(GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_PIN, dll, &handle), "GetModuleHandleExA failed");
+
+        DetourTransactionBegin();
+        DetourUpdateThread(GetCurrentThread());
+
+        original = (TMethod)GetProcAddress(handle, target);
+        CHECK_MSG(original, "GetProcAddress failed");
+        DetourAttach((PVOID*)&original, hooked);
+
+        CHECK_MSG(DetourTransactionCommit() == NO_ERROR, "DetourTransactionCommit failed");
+    }
+
+    template <typename TMethod>
+    void DetourDllDetach(const char* dll, const char* target, TMethod hooked, TMethod& original) {
+        if (!original) {
+            // Not hooked.
+            return;
+        }
+
+        DetourTransactionBegin();
+        DetourUpdateThread(GetCurrentThread());
+
+        DetourDetach((PVOID*)&original, hooked);
+
+        CHECK_MSG(DetourTransactionCommit() == NO_ERROR, "DetourTransactionCommit failed");
+
+        original = nullptr;
+    }
+
 } // namespace openxr_api_layer::utilities

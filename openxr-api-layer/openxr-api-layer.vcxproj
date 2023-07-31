@@ -105,15 +105,15 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\framework;$(SolutionDir)\external\OpenXR-SDK\include;$(SolutionDir)\external\OpenXR-SDK\src\common;$(SolutionDir)\external\OpenXR-MixedReality\Shared\XrUtility;$(SolutionDir)\external\Omnicept-SDK\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\framework;$(SolutionDir)\external\OpenXR-SDK\include;$(SolutionDir)\external\OpenXR-SDK\src\common;$(SolutionDir)\external\OpenXR-MixedReality\Shared\XrUtility;$(SolutionDir)\external\Omnicept-SDK\include;$(SolutionDir)\external\Varjo-SDK\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>ws2_32.lib;bcrypt.lib;crypt32.lib;wintrust.lib;Iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;hp_omniceptd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\external\Omnicept-SDK\lib\$(Configuration)\msvc2019_64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;bcrypt.lib;crypt32.lib;wintrust.lib;Iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;VarjoLib.lib;hp_omniceptd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\external\Varjo-SDK\lib;$(SolutionDir)\external\Omnicept-SDK\lib\$(Configuration)\msvc2019_64</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>module.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
@@ -122,6 +122,7 @@ copy $(SolutionDir)\scripts\Install-Layer.ps1 $(OutDir)
 copy $(SolutionDir)\scripts\Uninstall-Layer.ps1 $(OutDir)
 copy $(SolutionDir)\external\Omnicept-SDK\bin\$(Configuration)\jsoncpp.dll $(OutDir)
 copy $(SolutionDir)\external\Omnicept-SDK\bin\$(Configuration)\libzmq-mt-gd-4_3_3.dll $(OutDir)
+copy $(SolutionDir)\external\Varjo-SDK\bin\VarjoLib.dll $(OutDir)
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -150,22 +151,22 @@ copy $(SolutionDir)\external\Omnicept-SDK\bin\$(Configuration)\libzmq-mt-gd-4_3_
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\framework;$(SolutionDir)\external\OpenXR-SDK\include;$(SolutionDir)\external\OpenXR-SDK\src\common;$(SolutionDir)\external\OpenXR-MixedReality\Shared\XrUtility;$(SolutionDir)\external\Omnicept-SDK\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\framework;$(SolutionDir)\external\OpenXR-SDK\include;$(SolutionDir)\external\OpenXR-SDK\src\common;$(SolutionDir)\external\OpenXR-MixedReality\Shared\XrUtility;$(SolutionDir)\external\Omnicept-SDK\include;$(SolutionDir)\external\Varjo-SDK\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;VarjoLib32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\external\Varjo-SDK\lib;</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>module.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
       <Command>$(SolutionDir)\scripts\sed.exe "s/XR_APILAYER_name/$(SolutionName)/g" $(ProjectDir)\openxr-api-layer-32.json &gt; $(OutDir)\openxr-api-layer-32.json
 copy $(SolutionDir)\scripts\Install-Layer32.ps1 $(OutDir)
 copy $(SolutionDir)\scripts\Uninstall-Layer32.ps1 $(OutDir)
+copy $(SolutionDir)\external\Varjo-SDK\bin\VarjoLib32.dll $(OutDir)
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -196,7 +197,7 @@ copy $(SolutionDir)\scripts\Uninstall-Layer32.ps1 $(OutDir)
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\framework;$(SolutionDir)\external\OpenXR-SDK\include;$(SolutionDir)\external\OpenXR-SDK\src\common;$(SolutionDir)\external\OpenXR-MixedReality\Shared\XrUtility;$(SolutionDir)\external\Omnicept-SDK\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\framework;$(SolutionDir)\external\OpenXR-SDK\include;$(SolutionDir)\external\OpenXR-SDK\src\common;$(SolutionDir)\external\OpenXR-MixedReality\Shared\XrUtility;$(SolutionDir)\external\Omnicept-SDK\include;$(SolutionDir)\external\Varjo-SDK\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -205,8 +206,8 @@ copy $(SolutionDir)\scripts\Uninstall-Layer32.ps1 $(OutDir)
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>ws2_32.lib;bcrypt.lib;crypt32.lib;wintrust.lib;Iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;hp_omnicept.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\external\Omnicept-SDK\lib\$(Configuration)\msvc2019_64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;bcrypt.lib;crypt32.lib;wintrust.lib;Iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;VarjoLib.lib;hp_omnicept.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\external\Varjo-SDK\lib;$(SolutionDir)\external\Omnicept-SDK\lib\$(Configuration)\msvc2019_64</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>module.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
@@ -215,6 +216,7 @@ copy $(SolutionDir)\scripts\Install-Layer.ps1 $(OutDir)
 copy $(SolutionDir)\scripts\Uninstall-Layer.ps1 $(OutDir)
 copy $(SolutionDir)\external\Omnicept-SDK\bin\$(Configuration)\jsoncpp.dll $(OutDir)
 copy $(SolutionDir)\external\Omnicept-SDK\bin\$(Configuration)\libzmq-mt-4_3_3.dll $(OutDir)
+copy $(SolutionDir)\external\Varjo-SDK\bin\VarjoLib.dll $(OutDir)
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -245,7 +247,7 @@ copy $(SolutionDir)\external\Omnicept-SDK\bin\$(Configuration)\libzmq-mt-4_3_3.d
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\framework;$(SolutionDir)\external\OpenXR-SDK\include;$(SolutionDir)\external\OpenXR-SDK\src\common;$(SolutionDir)\external\OpenXR-MixedReality\Shared\XrUtility;$(SolutionDir)\external\Omnicept-SDK\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\framework;$(SolutionDir)\external\OpenXR-SDK\include;$(SolutionDir)\external\OpenXR-SDK\src\common;$(SolutionDir)\external\OpenXR-MixedReality\Shared\XrUtility;$(SolutionDir)\external\Omnicept-SDK\include;$(SolutionDir)\external\Varjo-SDK\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -254,15 +256,15 @@ copy $(SolutionDir)\external\Omnicept-SDK\bin\$(Configuration)\libzmq-mt-4_3_3.d
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;VarjoLib32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\external\Varjo-SDK\lib;</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>module.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
       <Command>$(SolutionDir)\scripts\sed.exe "s/XR_APILAYER_name/$(SolutionName)/g" $(ProjectDir)\openxr-api-layer-32.json &gt; $(OutDir)\openxr-api-layer-32.json
 copy $(SolutionDir)\scripts\Install-Layer32.ps1 $(OutDir)
 copy $(SolutionDir)\scripts\Uninstall-Layer32.ps1 $(OutDir)
+copy $(SolutionDir)\external\Varjo-SDK\bin\VarjoLib32.dll $(OutDir)
 </Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -315,6 +317,7 @@ copy $(SolutionDir)\scripts\Uninstall-Layer32.ps1 $(OutDir)
     <ClCompile Include="utils\d3d12.cpp" />
     <ClCompile Include="utils\general.cpp" />
     <ClCompile Include="utils\input.cpp" />
+    <ClCompile Include="varjo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="framework\dispatch_generator.py" />
@@ -333,6 +336,7 @@ copy $(SolutionDir)\scripts\Uninstall-Layer32.ps1 $(OutDir)
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\fmt.7.0.1\build\fmt.targets" Condition="Exists('..\packages\fmt.7.0.1\build\fmt.targets')" />
     <Import Project="..\packages\Microsoft.Windows.ImplementationLibrary.1.0.220201.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.220201.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
+    <Import Project="..\packages\Detours.4.0.1\build\native\Detours.targets" Condition="Exists('..\packages\Detours.4.0.1\build\native\Detours.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -340,5 +344,6 @@ copy $(SolutionDir)\scripts\Uninstall-Layer32.ps1 $(OutDir)
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\fmt.7.0.1\build\fmt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\fmt.7.0.1\build\fmt.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.220201.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.ImplementationLibrary.1.0.220201.1\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
+    <Error Condition="!Exists('..\packages\Detours.4.0.1\build\native\Detours.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Detours.4.0.1\build\native\Detours.targets'))" />
   </Target>
 </Project>
