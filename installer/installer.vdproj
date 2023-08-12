@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_3D90B2819F9640038A27DA623CE3F159"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_613C3BC685354CE0AC182CC2F2045FDF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -63,13 +69,31 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9B480E0914C04751A93D4EBCD9DD6ED3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B5EF92BE5FF55374A2312CF5192F89B3"
         "OwnerKey" = "8:_18EF797DC23F476CAD8AA197CFD110BE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_BD5A4298354C4617A9634573CD7BEA32"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C8CD7BA388EF49ECB9F1789F0762C25D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D8DAF492C85542058B9DE492F1E8BAE4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -82,6 +106,12 @@
         "Entry"
         {
         "MsmKey" = "8:_F0C284F11B924C9FA2FABCB717AC4E6D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F959C7597E494F2FBB9754D3DB619D80"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -267,6 +297,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3D90B2819F9640038A27DA623CE3F159"
+            {
+            "SourcePath" = "8:..\\bin\\Release\\x64\\Sample_DiffuseHDR.dds"
+            "TargetName" = "8:Sample_DiffuseHDR.dds"
+            "Tag" = "8:"
+            "Folder" = "8:_505DF0FD526F4594B101F5A5B0F2DC83"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_613C3BC685354CE0AC182CC2F2045FDF"
             {
             "SourcePath" = "8:..\\bin\\x64\\Release\\XR_APILAYER_MBUCCHIA_eye_trackers.dll"
@@ -347,6 +397,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9B480E0914C04751A93D4EBCD9DD6ED3"
+            {
+            "SourcePath" = "8:..\\bin\\Release\\x64\\EyeGazeInteractionWin32.exe"
+            "TargetName" = "8:EyeGazeInteractionWin32.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_505DF0FD526F4594B101F5A5B0F2DC83"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B5EF92BE5FF55374A2312CF5192F89B3"
             {
             "AssemblyRegister" = "3:1"
@@ -378,10 +448,50 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BD5A4298354C4617A9634573CD7BEA32"
+            {
+            "SourcePath" = "8:..\\bin\\Release\\x64\\openxr_loader.dll"
+            "TargetName" = "8:openxr_loader.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_505DF0FD526F4594B101F5A5B0F2DC83"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C8CD7BA388EF49ECB9F1789F0762C25D"
             {
             "SourcePath" = "8:EULA.rtf"
             "TargetName" = "8:EULA.rtf"
+            "Tag" = "8:"
+            "Folder" = "8:_505DF0FD526F4594B101F5A5B0F2DC83"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D8DAF492C85542058B9DE492F1E8BAE4"
+            {
+            "SourcePath" = "8:..\\bin\\Release\\x64\\Sample_SpecularHDR.dds"
+            "TargetName" = "8:Sample_SpecularHDR.dds"
             "Tag" = "8:"
             "Folder" = "8:_505DF0FD526F4594B101F5A5B0F2DC83"
             "Condition" = "8:"
@@ -422,6 +532,26 @@
             {
             "SourcePath" = "8:..\\bin\\x64\\Release\\libzmq-mt-4_3_3.dll"
             "TargetName" = "8:libzmq-mt-4_3_3.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_505DF0FD526F4594B101F5A5B0F2DC83"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F959C7597E494F2FBB9754D3DB619D80"
+            {
+            "SourcePath" = "8:..\\bin\\Release\\x64\\brdf_lut.png"
+            "TargetName" = "8:brdf_lut.png"
             "Tag" = "8:"
             "Folder" = "8:_505DF0FD526F4594B101F5A5B0F2DC83"
             "Condition" = "8:"
@@ -495,7 +625,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OpenXR-Eye-Trackers"
         "ProductCode" = "8:{8622DC73-F8D7-4BFA-A7A2-9FE0AC82F0EF}"
-        "PackageCode" = "8:{77D75796-7BF9-4A41-AA24-0B1B3E72C011}"
+        "PackageCode" = "8:{5E5BE4EA-7EE4-4FAF-97AE-AA7ACBE66B95}"
         "UpgradeCode" = "8:{1685CBAA-3515-4983-8944-D9D95A631F4C}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -651,6 +781,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_CEB4EDADB9CA4DC9B536570EDB00A84B"
+            {
+            "Name" = "8:OpenXR Eye Trackers Test Application"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_9B480E0914C04751A93D4EBCD9DD6ED3"
+            "Folder" = "8:_48454FF70F5240CD8BF635D4E5500F3D"
+            "WorkingFolder" = "8:_505DF0FD526F4594B101F5A5B0F2DC83"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {

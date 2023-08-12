@@ -16,3 +16,7 @@
 [submodule "external/PVR"]
 	path = external/PVR
 	url = https://github.com/mbucchia/PVR.git
+[submodule "external/OpenXR-MixedReality-Samples"]
+	path = external/OpenXR-MixedReality-Samples
+	url = https://github.com/mbucchia/OpenXR-MixedReality.git
+	branch = pimax-openxr

@@ -26,11 +26,31 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSetup", "CustomSetup\CustomSetup.csproj", "{B6C07936-A1D2-4A80-B559-B55E3F15CC97}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "installer", "installer\installer.vdproj", "{62890E5E-85E9-47FF-8E0D-8295EF0CB97A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4D2019B-622D-49B9-9510-16877979807A} = {A4D2019B-622D-49B9-9510-16877979807A}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{4470601E-331F-4A39-8251-BF2A9087731D}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\msbuild.yml = .github\workflows\msbuild.yml
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EyeGazeInteractionWin32", "external\OpenXR-MixedReality-Samples\samples\EyeGazeInteractionUwp\EyeGazeInteractionWin32.vcxproj", "{A4D2019B-622D-49B9-9510-16877979807A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{93D573D0-634F-4BA0-8FE0-FB63D7D00A05} = {93D573D0-634F-4BA0-8FE0-FB63D7D00A05}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApps", "TestApps", "{E07F310B-926A-4853-971F-2DCC4D75B238}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{EB82879F-8900-4566-A471-3FA39F5DF830}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gltf_win32", "external\OpenXR-MixedReality-Samples\shared\gltf\Gltf_win32.vcxproj", "{6A3225A3-0750-47B7-8004-80CA543F8B8B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pbr_win32", "external\OpenXR-MixedReality-Samples\shared\pbr\pbr_win32.vcxproj", "{2B7688F8-9AE6-4A67-809B-1BAC82094F21}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleShared_win32", "external\OpenXR-MixedReality-Samples\shared\SampleShared\SampleShared_win32.vcxproj", "{269C12FA-E68D-470B-A734-4701034306BD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XrSceneLib_win32", "external\OpenXR-MixedReality-Samples\shared\XrSceneLib\XrSceneLib_win32.vcxproj", "{A758AF22-F54F-4C74-BF85-05A377B5892E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +80,46 @@ Global
 		{62890E5E-85E9-47FF-8E0D-8295EF0CB97A}.Release|Win32.ActiveCfg = Release
 		{62890E5E-85E9-47FF-8E0D-8295EF0CB97A}.Release|x64.ActiveCfg = Release
 		{62890E5E-85E9-47FF-8E0D-8295EF0CB97A}.Release|x64.Build.0 = Release
+		{A4D2019B-622D-49B9-9510-16877979807A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A4D2019B-622D-49B9-9510-16877979807A}.Debug|Win32.Build.0 = Debug|Win32
+		{A4D2019B-622D-49B9-9510-16877979807A}.Debug|x64.ActiveCfg = Debug|x64
+		{A4D2019B-622D-49B9-9510-16877979807A}.Debug|x64.Build.0 = Debug|x64
+		{A4D2019B-622D-49B9-9510-16877979807A}.Release|Win32.ActiveCfg = Release|Win32
+		{A4D2019B-622D-49B9-9510-16877979807A}.Release|Win32.Build.0 = Release|Win32
+		{A4D2019B-622D-49B9-9510-16877979807A}.Release|x64.ActiveCfg = Release|x64
+		{A4D2019B-622D-49B9-9510-16877979807A}.Release|x64.Build.0 = Release|x64
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B}.Debug|Win32.Build.0 = Debug|Win32
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B}.Debug|x64.ActiveCfg = Debug|x64
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B}.Debug|x64.Build.0 = Debug|x64
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B}.Release|Win32.ActiveCfg = Release|Win32
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B}.Release|Win32.Build.0 = Release|Win32
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B}.Release|x64.ActiveCfg = Release|x64
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B}.Release|x64.Build.0 = Release|x64
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21}.Debug|Win32.Build.0 = Debug|Win32
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21}.Debug|x64.ActiveCfg = Debug|x64
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21}.Debug|x64.Build.0 = Debug|x64
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21}.Release|Win32.ActiveCfg = Release|Win32
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21}.Release|Win32.Build.0 = Release|Win32
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21}.Release|x64.ActiveCfg = Release|x64
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21}.Release|x64.Build.0 = Release|x64
+		{269C12FA-E68D-470B-A734-4701034306BD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{269C12FA-E68D-470B-A734-4701034306BD}.Debug|Win32.Build.0 = Debug|Win32
+		{269C12FA-E68D-470B-A734-4701034306BD}.Debug|x64.ActiveCfg = Debug|x64
+		{269C12FA-E68D-470B-A734-4701034306BD}.Debug|x64.Build.0 = Debug|x64
+		{269C12FA-E68D-470B-A734-4701034306BD}.Release|Win32.ActiveCfg = Release|Win32
+		{269C12FA-E68D-470B-A734-4701034306BD}.Release|Win32.Build.0 = Release|Win32
+		{269C12FA-E68D-470B-A734-4701034306BD}.Release|x64.ActiveCfg = Release|x64
+		{269C12FA-E68D-470B-A734-4701034306BD}.Release|x64.Build.0 = Release|x64
+		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Debug|Win32.Build.0 = Debug|Win32
+		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Debug|x64.ActiveCfg = Debug|x64
+		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Debug|x64.Build.0 = Debug|x64
+		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Release|Win32.ActiveCfg = Release|Win32
+		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Release|Win32.Build.0 = Release|Win32
+		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Release|x64.ActiveCfg = Release|x64
+		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +127,12 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BA775DE9-671E-4E3B-92AC-9828C2AAF490} = {A53ED6CB-95D3-4833-8A16-C6A588F16F6E}
 		{4470601E-331F-4A39-8251-BF2A9087731D} = {A53ED6CB-95D3-4833-8A16-C6A588F16F6E}
+		{A4D2019B-622D-49B9-9510-16877979807A} = {E07F310B-926A-4853-971F-2DCC4D75B238}
+		{EB82879F-8900-4566-A471-3FA39F5DF830} = {E07F310B-926A-4853-971F-2DCC4D75B238}
+		{6A3225A3-0750-47B7-8004-80CA543F8B8B} = {EB82879F-8900-4566-A471-3FA39F5DF830}
+		{2B7688F8-9AE6-4A67-809B-1BAC82094F21} = {EB82879F-8900-4566-A471-3FA39F5DF830}
+		{269C12FA-E68D-470B-A734-4701034306BD} = {EB82879F-8900-4566-A471-3FA39F5DF830}
+		{A758AF22-F54F-4C74-BF85-05A377B5892E} = {EB82879F-8900-4566-A471-3FA39F5DF830}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07E77829-9766-4585-AC6C-0A28BA014E77}
