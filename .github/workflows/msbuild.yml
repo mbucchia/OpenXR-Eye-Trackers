@@ -73,3 +73,15 @@ jobs:
         path: |
           installer/output/OpenXR-Eye-Trackers.msi
           bin/x64/Release/XR_APILAYER_MBUCCHIA_eye_trackers.pdb
+
+    - name: Publish
+      uses: actions/upload-artifact@v2
+      with:
+        name: DeveloperPackage
+        path: |
+          bin/x64/Release/XR_APILAYER_MBUCCHIA_eye_trackers.dll
+          bin/x64/Release/XR_APILAYER_MBUCCHIA_eye_trackers.pdb
+          bin/x64/Release/openxr-api-layer.json
+          bin/x64/Release/jsoncpp.dll
+          bin/x64/Release/libzmq-mt-4_3_3.dll
+          bin/x64/Release/VarjoLib.dll
