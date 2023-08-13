@@ -377,11 +377,10 @@ namespace openxr_api_layer {
 
             std::unique_lock lock(m_actionsAndSpacesMutex);
 
-            XrResult result = XR_ERROR_RUNTIME_FAILURE;
-            if (!isPassthrough() && m_actionSpaces.erase(space)) {
-                result = XR_SUCCESS;
-            } else {
-                result = OpenXrApi::xrDestroySpace(space);
+            const XrResult result = OpenXrApi::xrDestroySpace(space);
+
+            if (XR_SUCCEEDED(result)) {
+                m_actionSpaces.erase(space);
             }
 
             return result;
