@@ -726,7 +726,7 @@ namespace openxr_api_layer {
 
             char buf[XR_MAX_PATH_LENGTH];
             uint32_t count;
-            CHECK_XRCMD(xrPathToString(GetXrInstance(), path, sizeof(buf), &count, buf));
+            CHECK_XRCMD(OpenXrApi::xrPathToString(GetXrInstance(), path, sizeof(buf), &count, buf));
             std::string str;
             str.assign(buf, count - 1);
             return str;
