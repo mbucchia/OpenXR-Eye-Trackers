@@ -41,8 +41,8 @@ namespace SetupCustomActions
             var proc = Process.GetProcessesByName("msiexec").FirstOrDefault(p => p.MainWindowTitle == "OpenXR-Eye-Trackers");
             var owner = proc != null ? new WindowWrapper(proc.MainWindowHandle) : null;
 
-            // We want to add our layer at the very beginning, so that any other layer like the OpenXR Toolkit layer is following us.
-            // We delete all entries, create our own, and recreate all entries.
+            // We want to add our layer last. Note that the code below is redundant with that Windows Installer does,
+            // however we keep it in case we need to futher tune the order in the future.
 
             Microsoft.Win32.RegistryKey key;
             {
