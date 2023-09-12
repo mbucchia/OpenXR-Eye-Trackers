@@ -105,7 +105,7 @@ namespace openxr_api_layer {
             // Average the poses from both eyes.
             const auto gaze = xr::math::LoadXrPose(xr::math::Pose::Slerp(
                 eyeGaze.gaze[xr::StereoView::Left].gazePose, eyeGaze.gaze[xr::StereoView::Right].gazePose, 0.5f));
-            const auto gazeProjectedPoint = DirectX::XMVector3Transform(DirectX::XMVectorSet(0.f, 0.f, 1.f, 1.f), gaze);
+            const auto gazeProjectedPoint = DirectX::XMVector3Transform(DirectX::XMVectorSet(0.f, 0.f, -1.f, 1.f), gaze);
 
             unitVector = xr::math::Normalize(
                 {gazeProjectedPoint.m128_f32[0], gazeProjectedPoint.m128_f32[1], gazeProjectedPoint.m128_f32[2]});
