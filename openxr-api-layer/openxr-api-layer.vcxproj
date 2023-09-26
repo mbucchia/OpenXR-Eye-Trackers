@@ -356,6 +356,7 @@ $(SolutionDir)\installer\signtool.exe sign /d "OpenXR Eye Trackers" /du "https:/
     <ClCompile Include="utils\general.cpp" />
     <ClCompile Include="utils\input.cpp" />
     <ClCompile Include="varjo.cpp" />
+    <ClCompile Include="virtual_desktop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="framework\dispatch_generator.py" />

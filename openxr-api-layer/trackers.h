@@ -38,6 +38,7 @@ namespace openxr_api_layer {
         Varjo,
         QuestPro,
         Pimax,
+        VirtualDesktop,
     };
 
     static inline std::string getTrackerType(TrackerType type) {
@@ -56,6 +57,8 @@ namespace openxr_api_layer {
             return "Quest Pro";
         case TrackerType::Pimax:
             return "Pimax";
+        case TrackerType::VirtualDesktop:
+            return "Virtual Desktop";
         }
         return "<Unknown>";
     }
@@ -75,5 +78,6 @@ namespace openxr_api_layer {
     std::unique_ptr<IEyeTracker> createVarjoEyeTracker();
     std::unique_ptr<IEyeTracker> createQuestProEyeTracker(OpenXrApi& openXrApi);
     std::unique_ptr<IEyeTracker> createPimaxEyeTracker();
+    std::unique_ptr<IEyeTracker> createVirtualDesktopEyeTracker();
 
 } // namespace openxr_api_layer
