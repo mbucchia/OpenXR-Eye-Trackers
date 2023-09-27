@@ -109,3 +109,5 @@ using Microsoft::WRL::ComPtr;
 #include <PVR_API.h>
 
 #include <utils/inputs.h>
+
+#include "layer.h"

@@ -22,7 +22,6 @@
 
 #include "pch.h"
 
-#include "layer.h"
 #include "utils.h"
 #include <log.h>
 #include <util.h>
@@ -137,7 +136,7 @@ namespace openxr_api_layer {
             return true;
         }
 
-        TrackerType getType() const {
+        TrackerType getType() const override {
             return TrackerType::Pimax;
         }
 
@@ -146,7 +145,11 @@ namespace openxr_api_layer {
     };
 
     std::unique_ptr<IEyeTracker> createPimaxEyeTracker() {
-        return std::make_unique<PimaxEyeTracker>();
+        try {
+            return std::make_unique<PimaxEyeTracker>();
+        } catch (EyeTrackerNotSupportedException&) {
+            return {};
+        }
     }
 
 } // namespace openxr_api_layer

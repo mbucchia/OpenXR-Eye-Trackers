@@ -22,7 +22,6 @@
 
 #include "pch.h"
 
-#include "layer.h"
 #include "utils.h"
 #include <log.h>
 #include <util.h>
@@ -151,7 +150,7 @@ namespace openxr_api_layer {
             return true;
         }
 
-        TrackerType getType() const {
+        TrackerType getType() const override {
             return TrackerType::VirtualDesktop;
         }
 
@@ -160,7 +159,11 @@ namespace openxr_api_layer {
     };
 
     std::unique_ptr<IEyeTracker> createVirtualDesktopEyeTracker() {
-        return std::make_unique<VirtualDesktopEyeTracker>();
+        try {
+            return std::make_unique<VirtualDesktopEyeTracker>();
+        } catch (EyeTrackerNotSupportedException&) {
+            return {};
+        }
     }
 
 } // namespace openxr_api_layer

@@ -22,7 +22,6 @@
 
 #include "pch.h"
 
-#include "layer.h"
 #include "utils.h"
 #include <log.h>
 #include <util.h>
@@ -144,7 +143,7 @@ namespace openxr_api_layer {
             return true;
         }
 
-        TrackerType getType() const {
+        TrackerType getType() const override {
             return TrackerType::Omnicept;
         }
 
