@@ -473,14 +473,15 @@ namespace openxr_api_layer {
                     location->locationFlags =
                         XR_SPACE_LOCATION_ORIENTATION_VALID_BIT | XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT |
                         XR_SPACE_LOCATION_POSITION_VALID_BIT | XR_SPACE_LOCATION_POSITION_TRACKED_BIT;
+                    result = XR_SUCCESS;
                 } else {
                     location->locationFlags = 0;
                     XrVector3f gazeUnitVector;
                     if (getEyeGaze(time, false, gazeUnitVector)) {
                         XrSpaceLocation viewToSpace{XR_TYPE_SPACE_LOCATION};
-                        CHECK_XRCMD(OpenXrApi::xrLocateSpace(
-                            m_viewSpace, isQueryEyeGaze ? baseSpace : space, time, &viewToSpace));
-                        if (Pose::IsPoseValid(viewToSpace.locationFlags)) {
+                        result = OpenXrApi::xrLocateSpace(
+                            m_viewSpace, isQueryEyeGaze ? baseSpace : space, time, &viewToSpace);
+                        if (XR_SUCCEEDED(result) && Pose::IsPoseValid(viewToSpace.locationFlags)) {
                             const XrPosef eyeGazeToView = Pose::MakePose(
                                 Quaternion::RotationRollPitchYaw({tan(gazeUnitVector.y), -tan(gazeUnitVector.x), 0.f}),
                                 XrVector3f{0, 0, 0});
@@ -506,9 +507,10 @@ namespace openxr_api_layer {
                                 gazeSampleTime = reinterpret_cast<XrEyeGazeSampleTimeEXT*>(gazeSampleTime->next);
                             }
                         }
+                    } else {
+                        result = XR_SUCCESS;
                     }
                 }
-                result = XR_SUCCESS;
             } else {
                 result = OpenXrApi::xrLocateSpace(space, baseSpace, time, location);
             }
