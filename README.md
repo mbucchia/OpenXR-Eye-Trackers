@@ -23,3 +23,11 @@ To learn how to use the API layer in your application, and ship with eye trackin
 Donations are welcome and totally optional. Please use [my GitHub sponsorship page](https://github.com/sponsors/mbucchia) to make one-time or recurring donations!
 
 Thank you!
+
+## Special thanks
+
+Thanks to my beta testers for helping throughout development and release (in alphabetical order):
+
+- BARRACUDAS
+- MoleUK
+- Omniwhatever
