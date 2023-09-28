@@ -481,6 +481,8 @@ namespace openxr_api_layer {
                         XrSpaceLocation viewToSpace{XR_TYPE_SPACE_LOCATION};
                         result = OpenXrApi::xrLocateSpace(
                             m_viewSpace, isQueryEyeGaze ? baseSpace : space, time, &viewToSpace);
+                        TraceLoggingWrite(
+                            g_traceProvider, "xrLocateSpace_LocateViewSpace", TLArg(xr::ToCString(result), "Result"));
                         if (XR_SUCCEEDED(result) && Pose::IsPoseValid(viewToSpace.locationFlags)) {
                             const XrPosef eyeGazeToView = Pose::MakePose(
                                 Quaternion::RotationRollPitchYaw({tan(gazeUnitVector.y), -tan(gazeUnitVector.x), 0.f}),
@@ -506,6 +508,10 @@ namespace openxr_api_layer {
                                 }
                                 gazeSampleTime = reinterpret_cast<XrEyeGazeSampleTimeEXT*>(gazeSampleTime->next);
                             }
+                        } else if (result == XR_ERROR_TIME_INVALID) {
+                            // Workaround for DCS loading screen, be tolerant to gaps in XrTime. We still return a
+                            // non-locatable location.
+                            result = XR_SUCCESS;
                         }
                     } else {
                         result = XR_SUCCESS;
