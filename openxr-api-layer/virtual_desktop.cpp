@@ -127,11 +127,11 @@ namespace openxr_api_layer {
                                   leftEyePose.orientation.w},
                     XrVector3f{leftEyePose.position.x, leftEyePose.position.y, leftEyePose.position.z}),
                 xr::math::Pose::MakePose(
-                    XrQuaternionf{leftEyePose.orientation.x,
-                                  leftEyePose.orientation.y,
-                                  leftEyePose.orientation.z,
-                                  leftEyePose.orientation.w},
-                    XrVector3f{leftEyePose.position.x, leftEyePose.position.y, leftEyePose.position.z})};
+                    XrQuaternionf{rightEyePose.orientation.x,
+                                  rightEyePose.orientation.y,
+                                  rightEyePose.orientation.z,
+                                  rightEyePose.orientation.w},
+                    XrVector3f{rightEyePose.position.x, rightEyePose.position.y, rightEyePose.position.z})};
 
             TraceLoggingWrite(g_traceProvider,
                               "VirtualDesktopEyeTracker",
