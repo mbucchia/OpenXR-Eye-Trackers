@@ -5,5 +5,5 @@ wpr -start Tracing.wprp -filemode
 echo Reproduce your issue now, then
 pause
 
-wpr -stop QVFR.etl
+wpr -stop OpenXR-ET.etl
 popd
