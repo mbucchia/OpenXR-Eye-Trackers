@@ -29,7 +29,7 @@ namespace openxr_api_layer {
 
     const std::string LayerName = LAYER_NAME;
     const std::string LayerPrettyName = "OpenXR-Eye-Trackers";
-    const std::string VersionString = "1.1.0";
+    extern const std::string VersionString;
 
     // Singleton accessor.
     OpenXrApi* GetInstance();

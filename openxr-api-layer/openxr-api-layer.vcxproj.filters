@@ -50,6 +50,9 @@
     <ClInclude Include="trackers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -115,5 +118,8 @@
     <None Include="openxr-api-layer-32.json" />
     <None Include="packages.config" />
     <None Include="module.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
 </Project>
