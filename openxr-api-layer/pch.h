@@ -99,8 +99,10 @@ using Microsoft::WRL::ComPtr;
 // Detours to hook into other code.
 #include <detours.h>
 
+#ifdef _WIN64
 // HP Omnicept SDK
 #include <omnicept/Glia.h>
+#endif
 
 // Varjo Custom Engine SDK
 #include <varjo.h>

@@ -34,7 +34,9 @@ namespace openxr_api_layer {
         None = 0,
         EyeGazeInteraction, // Passthru
         Simulated,
+#ifdef _WIN64
         Omnicept,
+#endif
         Varjo,
         QuestPro,
         Pimax,
@@ -49,8 +51,10 @@ namespace openxr_api_layer {
             return "Passthrough";
         case TrackerType::Simulated:
             return "Simulated";
+#ifdef _WIN64
         case TrackerType::Omnicept:
             return "HP Omnicept";
+#endif
         case TrackerType::Varjo:
             return "Varjo";
         case TrackerType::QuestPro:
@@ -74,7 +78,9 @@ namespace openxr_api_layer {
     };
 
     std::unique_ptr<IEyeTracker> createSimulatedEyeTracker();
+#ifdef _WIN64
     std::unique_ptr<IEyeTracker> createOmniceptEyeTracker();
+#endif
     std::unique_ptr<IEyeTracker> createVarjoEyeTracker();
     std::unique_ptr<IEyeTracker> createQuestProEyeTracker(OpenXrApi& openXrApi);
     std::unique_ptr<IEyeTracker> createPimaxEyeTracker();

@@ -176,9 +176,12 @@ namespace openxr_api_layer {
                         m_tracker = createQuestProEyeTracker(*this);
                     } else {
                         // Attempt to initialize external eye tracking API.
-                        if (systemName.find("Windows Mixed Reality") != std::string::npos ||
-                            systemName.find("SteamVR/OpenXR : holographic") != std::string::npos) {
+                        if (0) {
+#ifdef _WIN64
+                        }  else if (systemName.find("Windows Mixed Reality") != std::string::npos ||
+                                 systemName.find("SteamVR/OpenXR : holographic") != std::string::npos) {
                             m_tracker = createOmniceptEyeTracker();
+#endif
                         } else if (systemName.find("SteamVR/OpenXR : aapvr") != std::string::npos) {
                             m_tracker = createPimaxEyeTracker();
                         } else if (systemName.find("SteamVR/OpenXR : oculus") != std::string::npos) {
