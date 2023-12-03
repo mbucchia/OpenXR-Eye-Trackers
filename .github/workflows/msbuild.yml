@@ -72,7 +72,6 @@ jobs:
         name: Setup
         path: |
           installer/output/OpenXR-Eye-Trackers.msi
-          bin/x64/Release/XR_APILAYER_MBUCCHIA_eye_trackers.pdb
 
     - name: Publish
       uses: actions/upload-artifact@v2
