@@ -41,6 +41,7 @@ namespace openxr_api_layer {
         QuestPro,
         Pimax,
         VirtualDesktop,
+        SteamLink,
     };
 
     static inline std::string getTrackerType(TrackerType type) {
@@ -63,6 +64,8 @@ namespace openxr_api_layer {
             return "Pimax";
         case TrackerType::VirtualDesktop:
             return "Virtual Desktop";
+        case TrackerType::SteamLink:
+            return "Steam Link";
         }
         return "<Unknown>";
     }
@@ -85,5 +88,6 @@ namespace openxr_api_layer {
     std::unique_ptr<IEyeTracker> createQuestProEyeTracker(OpenXrApi& openXrApi);
     std::unique_ptr<IEyeTracker> createPimaxEyeTracker();
     std::unique_ptr<IEyeTracker> createVirtualDesktopEyeTracker();
+    std::unique_ptr<IEyeTracker> createSteamLinkEyeTracker();
 
 } // namespace openxr_api_layer

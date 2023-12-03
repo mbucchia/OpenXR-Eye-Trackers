@@ -186,6 +186,9 @@ namespace openxr_api_layer {
                             m_tracker = createPimaxEyeTracker();
                         } else if (systemName.find("SteamVR/OpenXR : oculus") != std::string::npos) {
                             m_tracker = createVirtualDesktopEyeTracker();
+                            if (!m_tracker) {
+                                m_tracker = createSteamLinkEyeTracker();
+                            }
                         } else if (systemName.find("SteamVR/OpenXR") != std::string::npos) {
                             m_tracker = createVarjoEyeTracker();
                         }

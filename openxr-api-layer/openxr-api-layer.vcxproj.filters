@@ -106,6 +106,9 @@
     <ClCompile Include="virtual_desktop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="steam_link.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="framework\dispatch_generator.py">

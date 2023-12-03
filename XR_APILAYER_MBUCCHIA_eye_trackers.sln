@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openxr-api-layer", "openxr-api-layer\openxr-api-layer.vcxproj", "{93D573D0-634F-4BA0-8FE0-FB63D7D00A05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6} = {3461493E-AA37-49DA-A26B-9622B98AF8D6}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{A53ED6CB-95D3-4833-8A16-C6A588F16F6E}"
 	ProjectSection(SolutionItems) = preProject
@@ -53,6 +56,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleShared_win32", "external\OpenXR-MixedReality-Samples\shared\SampleShared\SampleShared_win32.vcxproj", "{269C12FA-E68D-470B-A734-4701034306BD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XrSceneLib_win32", "external\OpenXR-MixedReality-Samples\shared\XrSceneLib\XrSceneLib_win32.vcxproj", "{A758AF22-F54F-4C74-BF85-05A377B5892E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{3EFCDCC4-A51A-4812-85F3-CDB8B9F25F9D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "oscpack", "oscpack\oscpack.vcxproj", "{3461493E-AA37-49DA-A26B-9622B98AF8D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +127,14 @@ Global
 		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Release|Win32.Build.0 = Release|Win32
 		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Release|x64.ActiveCfg = Release|x64
 		{A758AF22-F54F-4C74-BF85-05A377B5892E}.Release|x64.Build.0 = Release|x64
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6}.Debug|Win32.Build.0 = Debug|Win32
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6}.Debug|x64.ActiveCfg = Debug|x64
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6}.Debug|x64.Build.0 = Debug|x64
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6}.Release|Win32.ActiveCfg = Release|Win32
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6}.Release|Win32.Build.0 = Release|Win32
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6}.Release|x64.ActiveCfg = Release|x64
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +148,7 @@ Global
 		{2B7688F8-9AE6-4A67-809B-1BAC82094F21} = {EB82879F-8900-4566-A471-3FA39F5DF830}
 		{269C12FA-E68D-470B-A734-4701034306BD} = {EB82879F-8900-4566-A471-3FA39F5DF830}
 		{A758AF22-F54F-4C74-BF85-05A377B5892E} = {EB82879F-8900-4566-A471-3FA39F5DF830}
+		{3461493E-AA37-49DA-A26B-9622B98AF8D6} = {3EFCDCC4-A51A-4812-85F3-CDB8B9F25F9D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07E77829-9766-4585-AC6C-0A28BA014E77}
