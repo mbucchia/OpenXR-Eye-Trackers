@@ -20,3 +20,6 @@
 	path = external/OpenXR-MixedReality-Samples
 	url = https://github.com/mbucchia/OpenXR-MixedReality.git
 	branch = pimax-openxr
+[submodule "external/oscpack"]
+	path = external/oscpack
+	url = https://github.com/RossBencina/oscpack.git
