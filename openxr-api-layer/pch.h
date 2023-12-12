@@ -89,6 +89,7 @@ using Microsoft::WRL::ComPtr;
 #include <DirectXCollision.h>
 
 // FMT formatter.
+#define FMT_HEADER_ONLY
 #include <fmt/format.h>
 
 #if defined(XR_USE_GRAPHICS_API_D3D11) || defined(XR_USE_GRAPHICS_API_D3D12)
