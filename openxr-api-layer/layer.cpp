@@ -150,8 +150,8 @@ namespace openxr_api_layer {
                         g_traceProvider,
                         "xrGetSystem",
                         TLArg(systemProperties.systemName, "SystemName"),
-                        TLArg(eyeGazeInteractionProperties.supportsEyeGazeInteraction, "SupportsEyeGazeInteraction"),
-                        TLArg(eyeTrackingProperties.supportsEyeTracking, "SupportsEyeTracking"));
+                        TLArg(!!eyeGazeInteractionProperties.supportsEyeGazeInteraction, "SupportsEyeGazeInteraction"),
+                        TLArg(!!eyeTrackingProperties.supportsEyeTracking, "SupportsEyeTracking"));
                     std::string_view systemName(systemProperties.systemName);
                     Log(fmt::format("Using OpenXR system: {}\n", systemName.data()));
 
