@@ -28,55 +28,23 @@
 
 #include "trackers.h"
 
+#include "BodyState.h"
+
 namespace openxr_api_layer {
 
     using namespace log;
-
-    // See type definitions from Virtual Desktop.
-    // https://github.com/guygodin/VirtualDesktop.VRCFaceTracking/blob/main/FaceState.cs
-    // https://github.com/guygodin/VirtualDesktop.VRCFaceTracking/blob/main/Pose.cs
-    // https://github.com/guygodin/VirtualDesktop.VRCFaceTracking/blob/main/Quaternion.cs
-    // https://github.com/guygodin/VirtualDesktop.VRCFaceTracking/blob/main/Vector3.cs
-
-    struct Vector3 {
-        float x, y, z;
-    };
-
-    struct Quaternion {
-        float x, y, z, w;
-    };
-
-    struct Pose {
-        Quaternion orientation;
-        Vector3 position;
-    };
-
-    constexpr int ExpressionCount = 63;
-    constexpr int ConfidenceCount = 2;
-
-    struct FaceState {
-        uint8_t FaceIsValid;
-        uint8_t IsEyeFollowingBlendshapesValid;
-        float ExpressionWeights[ExpressionCount];
-        float ExpressionConfidences[ConfidenceCount];
-        uint8_t LeftEyeIsValid;
-        uint8_t RightEyeIsValid;
-        Pose LeftEyePose;
-        Pose RightEyePose;
-        float LeftEyeConfidence;
-        float RightEyeConfidence;
-    };
+    using namespace virtualdesktop_openxr::BodyTracking;
 
     struct VirtualDesktopEyeTracker : IEyeTracker {
         VirtualDesktopEyeTracker() {
-            *m_faceStateFile.put() = OpenFileMapping(FILE_MAP_READ, false, L"VirtualDesktop.FaceState");
+            *m_faceStateFile.put() = OpenFileMapping(FILE_MAP_READ, false, L"VirtualDesktop.BodyState");
             if (!m_faceStateFile) {
                 TraceLoggingWrite(g_traceProvider, "VirtualDesktopEyeTracker_NotAvailable");
                 throw EyeTrackerNotSupportedException();
             }
 
-            m_sharedState = reinterpret_cast<FaceState*>(
-                MapViewOfFile(m_faceStateFile.get(), FILE_MAP_READ, 0, 0, sizeof(FaceState)));
+            m_sharedState = reinterpret_cast<BodyStateV2*>(
+                MapViewOfFile(m_faceStateFile.get(), FILE_MAP_READ, 0, 0, sizeof(BodyStateV2)));
             if (!m_sharedState) {
                 TraceLoggingWrite(g_traceProvider, "VirtualDesktopEyeTracker_MappingError");
                 throw EyeTrackerNotSupportedException();
@@ -155,7 +123,7 @@ namespace openxr_api_layer {
         }
 
         wil::unique_handle m_faceStateFile;
-        FaceState* m_sharedState{nullptr};
+        BodyStateV2* m_sharedState{nullptr};
     };
 
     std::unique_ptr<IEyeTracker> createVirtualDesktopEyeTracker() {
