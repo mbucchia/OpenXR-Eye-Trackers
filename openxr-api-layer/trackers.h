@@ -42,6 +42,7 @@ namespace openxr_api_layer {
         Pimax,
         VirtualDesktop,
         SteamLink,
+        OpenXr,
     };
 
     static inline std::string getTrackerType(TrackerType type) {
@@ -66,6 +67,8 @@ namespace openxr_api_layer {
             return "Virtual Desktop";
         case TrackerType::SteamLink:
             return "Steam Link";
+        case TrackerType::OpenXr:
+            return "OpenXR";
         }
         return "<Unknown>";
     }
